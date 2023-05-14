@@ -296,7 +296,7 @@ namespace WindowsFormsApp1
         private void Find_intersections_Click(object sender, EventArgs e)
         {
             List<PointF> intersections = new List<PointF>();
-            List<Line> overlappingLines = new List<Line>();
+            List<LineSegment> overlappingLines = new List<LineSegment>();
 
             for (int i = 0; i < lines.Count; i++)
             {
@@ -315,14 +315,7 @@ namespace WindowsFormsApp1
                         LineSegment overlap;
                         if (LineSegmentsOverlap(segment1, segment2, out overlap))
                         {
-                            if (overlap.Start == lines[i].begin_point && overlap.End == lines[i].end_point)
-                            {
-                                overlappingLines.Add(lines[i]);
-                            }
-                            else
-                            {
-                                overlappingLines.Add(lines[j]);
-                            }
+                            overlappingLines.Add(overlap);
                         }
                     }
                 }
@@ -336,9 +329,9 @@ namespace WindowsFormsApp1
                 }
 
                 // Draw overlapping lines with their original color
-                foreach (Line line in overlappingLines)
+                foreach (LineSegment line in overlappingLines)
                 {
-                    g.DrawLine(new Pen(colorSelected, 2), line.begin_point.X_position, line.begin_point.Y_position, line.end_point.X_position, line.end_point.Y_position);
+                    g.DrawLine(new Pen(colorSelected, 2), line.Start.X_position, line.Start.Y_position, line.End.X_position, line.End.Y_position);
                 }
             }
         }
